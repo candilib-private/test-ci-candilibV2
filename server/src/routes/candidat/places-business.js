@@ -44,7 +44,7 @@ import {
 } from '../../models/candidat'
 import { REASON_CANCEL, REASON_MODIFY } from '../common/reason.constants'
 import { candidatCanReservePlaceForThisPeriod } from './util'
-import { getDateVisibleForPlaces } from './util/date-to-display'
+import { getDateVisibleForPlaces, getDateDisplayPlaces } from './util/date-to-display'
 
 const filterVisiblePlaces = (places) => places.filter(place => !place.visibleAt || place.visibleAt < getFrenchLuxon().toJSDate())
 
@@ -83,9 +83,10 @@ export const getDatesByCentreId = async (
     beginPeriod.toISODate(),
     endPeriod.toISODate(),
     undefined,
+    getDateDisplayPlaces(),
     getFrenchLuxon(),
   )
-  const dates = filterVisiblePlaces(places).map(place =>
+  const dates = places.map(place =>
     getFrenchLuxonFromJSDate(place.date).toISO(),
   )
   const result = [...new Set(dates)]
@@ -161,6 +162,7 @@ export const getPlacesByDepartementAndCentre = async (
     geoDepartement,
     beginPeriod,
     endPeriod,
+    getDateDisplayPlaces(),
     getFrenchLuxon(),
   )
 
@@ -238,9 +240,10 @@ export const hasAvailablePlaces = async (id, date) => {
     id,
     date,
     undefined,
+    getDateDisplayPlaces(),
     getFrenchLuxon(),
   )
-  const dates = filterVisiblePlaces(places).map(place =>
+  const dates = places.map(place =>
     getFrenchLuxonFromJSDate(place.date).toISO(),
   )
   return [...new Set(dates)]

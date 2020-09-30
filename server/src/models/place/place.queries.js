@@ -97,7 +97,7 @@ const queryAvailablePlacesByCentre = (
   centreId,
   beginDate,
   endDate,
-  // createdBefore,
+  createdBefore,
   visibleBefore,
 ) => {
   const query = Place.where('centre').exists(true)
@@ -106,6 +106,10 @@ const queryAvailablePlacesByCentre = (
 
     if (beginDate) query.gte(beginDate)
     if (endDate) query.lt(endDate)
+  }
+
+  if (createdBefore) {
+    query.where('createdAt').lt(createdBefore)
   }
 
   if (visibleBefore) {
@@ -174,13 +178,14 @@ export const findAvailablePlacesByCentre = async (
   beginDate,
   endDate,
   populate,
-  // createdBefore,
+  createdBefore,
   visibleBefore,
 ) => {
   const query = queryAvailablePlacesByCentre(
     centreId,
     beginDate,
     endDate,
+    createdBefore,
     visibleBefore,
   )
   queryPopulate(populate, query)
@@ -276,7 +281,7 @@ export const findPlacesByCentreAndDate = async (
   _id,
   date,
   populate,
-  // createdBefore,
+  createdBefore,
   visibleBefore,
 ) => {
   const query = Place.find({
@@ -286,6 +291,10 @@ export const findPlacesByCentreAndDate = async (
     .where('candidat')
     .equals(undefined)
   queryPopulate(populate, query)
+
+  if (createdBefore) {
+    query.where('createdAt').lt(createdBefore)
+  }
 
   if (visibleBefore) {
     query.where('visibleAt').lt(visibleBefore)
@@ -493,6 +502,7 @@ export const findPlacesByDepartementAndCentre = async (
   geoDepartement,
   beginPeriod,
   endPeriod,
+  createdBefore,
   visibleBefore,
 ) => {
   const dates = await Centre.aggregate([
@@ -516,8 +526,7 @@ export const findPlacesByDepartementAndCentre = async (
                 {
                   $and:
                   [
-                    // { $lt: ['$createdAt', createdBefore] },
-                    { $lt: ['$visibleAt', visibleBefore] },
+                    { $lt: ['$createdAt', createdBefore] },
                     { $eq: ['$centre', '$$centre_id'] },
                     { $lt: ['$date', endPeriod] },
                     { $gte: ['$date', beginPeriod] },
@@ -525,6 +534,14 @@ export const findPlacesByDepartementAndCentre = async (
                 },
                 candidat: { $exists: false },
               },
+          },
+          {
+            $match: {
+              $or: [
+                { visibleAt: { $lt: visibleBefore } },
+                { visibleAt: { $exists: false } },
+              ],
+            },
           },
           {
             $project: {
