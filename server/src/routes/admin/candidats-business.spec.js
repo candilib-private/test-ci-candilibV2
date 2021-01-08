@@ -21,8 +21,10 @@ describe('Update Email of a candidat', () => {
   }
 
   let candidatCreated
+  let instanceMongo
+
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
     candidatCreated = await createCandidat(candidatToCreate)
   })
 
@@ -32,7 +34,7 @@ describe('Update Email of a candidat', () => {
 
   afterAll(async () => {
     await candidatModel.deleteOne({ _id: candidatCreated._id })
-    await disconnect()
+    await disconnect(instanceMongo)
   })
 
   it('should 400 when the same e-mail ', async () => {

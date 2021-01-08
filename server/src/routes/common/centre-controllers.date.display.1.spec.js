@@ -28,8 +28,10 @@ jest.mock('../common/candidat-status-const')
 jest.mock('../candidat/middlewares/verify-candidat')
 describe('For Status, Get centres with the numbers places available in departements and display at 12h by status', () => {
   let centreSelected1
+  let instanceMongo
+
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
     const createdCandidats = await createCandidats()
     require('../middlewares/verify-token').__setIdCandidat(
       createdCandidats[0]._id,
@@ -42,7 +44,7 @@ describe('For Status, Get centres with the numbers places available in departeme
   })
 
   afterAll(async () => {
-    await disconnect()
+    await disconnect(instanceMongo)
   })
 
   describe.each`

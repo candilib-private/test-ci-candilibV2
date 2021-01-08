@@ -31,12 +31,14 @@ const prenom1 = 'Test prenom'
 describe('ArchivedCandidat', () => {
   let candidat
   let candidat2
+  let instanceMongo
+
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
   })
 
   afterAll(async () => {
-    await disconnect()
+    await disconnect(instanceMongo)
   })
 
   describe('Saving ArchivedCandidat', () => {

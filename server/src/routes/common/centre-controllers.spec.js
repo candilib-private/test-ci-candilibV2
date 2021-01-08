@@ -35,12 +35,13 @@ jest.mock('../middlewares/verify-token')
 const bookedAt = getFrenchLuxon().toJSDate()
 
 xdescribe('Test centre candidat controllers', () => {
+  let instanceMongo
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
   })
 
   afterAll(async () => {
-    await disconnect()
+    await disconnect(instanceMongo)
     await app.close()
   })
 
@@ -178,9 +179,9 @@ xdescribe('Test centre candidat controllers', () => {
 describe('Centre controllers admin', () => {
   let mockApp
   let admin
-
+  let instanceMongo
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
     const departements = ['92', '93']
     const email = 'admin@example.com'
     const password = 'S3cr3757uff!'
@@ -191,7 +192,7 @@ describe('Centre controllers admin', () => {
 
   afterAll(async () => {
     await removeCentres()
-    await disconnect()
+    await disconnect(instanceMongo)
     await mockApp.close()
   })
 
@@ -351,8 +352,9 @@ describe('Test centres of departement', () => {
   // const departementData = { _id: '75', email: 'email93@onepiece.com' }
   // let createdCentre
 
+  let instanceMongo
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
     // await createDepartement(departementData)
     // createdCentre = await modelCreateCentre(
     //   centre.nom,
@@ -393,7 +395,7 @@ describe('Test centres of departement', () => {
     // await deleteDepartementById(departementData._id)
     // await deleteCentre(createdCentre)
     await removeCentres()
-    await disconnect()
+    await disconnect(instanceMongo)
     // await app.close()
   })
 

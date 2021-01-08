@@ -24,11 +24,12 @@ require('../../util/logger').setWithConsole(false)
 jest.mock('../middlewares/verify-token')
 
 xdescribe('Get departement with the numbers places available in departements and display at 12h', () => {
+  let instanceMongo
   beforeAll(async () => {
     setInitCreatedCentre()
     resetCreatedInspecteurs()
 
-    await connect()
+    instanceMongo = await connect()
     const createdCandidats = await createCandidats()
     require('../middlewares/verify-token').__setIdCandidat(
       createdCandidats[0]._id,
@@ -38,7 +39,7 @@ xdescribe('Get departement with the numbers places available in departements and
   })
 
   afterAll(async () => {
-    await disconnect()
+    await disconnect(instanceMongo)
     setNowAtNow()
   })
 

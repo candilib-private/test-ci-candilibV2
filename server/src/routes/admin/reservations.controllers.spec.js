@@ -30,8 +30,9 @@ xdescribe('reservation by admin', () => {
     let candidatsCreated
     let centresCreated
     let admin
+    let instanceMongo
     beforeAll(async () => {
-      await connect()
+      instanceMongo = await connect()
       admin = await createUser(email, password, deps)
       centresCreated = await createCentres()
       placesCreated = await createPlaces()
@@ -44,7 +45,7 @@ xdescribe('reservation by admin', () => {
       await Promise.all(placesCreated.map(deleteData))
       await Promise.all(centresCreated.map(deleteData))
       await Promise.all(candidatsCreated.map(deleteData))
-      await disconnect()
+      await disconnect(instanceMongo)
     })
 
     it('should 400 when a place has not booked', async () => {

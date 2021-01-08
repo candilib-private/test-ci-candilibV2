@@ -123,9 +123,10 @@ describe('Get places available and display at 12h', () => {
   let places
   let placesCreatedBefore
   let idCandidat
+  let instanceMongo
 
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
     const createdCandidats = await createCandidats()
     idCandidat = createdCandidats[0]._id
     require('../middlewares/verify-token').__setIdCandidat(idCandidat)
@@ -139,7 +140,7 @@ describe('Get places available and display at 12h', () => {
   })
 
   afterAll(async () => {
-    await disconnect()
+    await disconnect(instanceMongo)
     setNowAtNow()
   })
 

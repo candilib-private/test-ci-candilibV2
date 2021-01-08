@@ -18,11 +18,12 @@ const candidat = {
   adresse: '10 Rue Oberkampf 75011 Paris',
 }
 describe('authentification of candidat', () => {
+  let instanceMongo
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
   })
   afterAll(async () => {
-    await disconnect()
+    await disconnect(instanceMongo)
   })
 
   const app = express()

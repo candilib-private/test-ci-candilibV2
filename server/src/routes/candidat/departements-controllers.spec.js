@@ -24,12 +24,13 @@ jest.mock('../middlewares/verify-user')
 require('../../util/logger').setWithConsole(false)
 
 describe('Test get dates from places available', () => {
+  let instanceMongo
   beforeAll(async () => {
     setInitCreatedCentre()
     resetCreatedInspecteurs()
     setInitCreatedPlaces()
 
-    await connect()
+    instanceMongo = await connect()
     const createdCandidats = await createCandidats()
     await createCentres()
     await createPlaces()
@@ -42,7 +43,7 @@ describe('Test get dates from places available', () => {
     await removePlaces()
     await removeCentres()
     await deleteCandidats()
-    await disconnect()
+    await disconnect(instanceMongo)
     await app.close()
   })
 

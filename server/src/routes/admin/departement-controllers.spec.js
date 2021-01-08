@@ -54,8 +54,9 @@ const departementList = [
 const newEmail = 'newemaildu37@test.com'
 
 describe('Département controllers', () => {
+  let instanceMongo
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
     await createManyDepartementTest(departementList)
     await createUser(
       emailAdmin,
@@ -67,7 +68,7 @@ describe('Département controllers', () => {
 
   afterAll(async () => {
     await deleteManyDepartementsTest(departementList)
-    await disconnect()
+    await disconnect(instanceMongo)
   })
 
   it('Should create one departement', async () => {

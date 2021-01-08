@@ -27,12 +27,13 @@ prenom = 'Jean'
 const defaultInspecteur2 = { email, matricule, nom, prenom }
 
 describe('Inspecteur', () => {
+  let instanceMongo
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
   })
 
   afterAll(async () => {
-    await disconnect()
+    await disconnect(instanceMongo)
   })
 
   describe('Saving Inspecteur', () => {

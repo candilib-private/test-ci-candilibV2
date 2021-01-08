@@ -13,12 +13,13 @@ const type = 'AURIGE_STATUS'
 const message = 'sync aurige status etape 1'
 
 describe('Saving Status', () => {
+  let instanceMongo
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
   })
 
   afterAll(async () => {
-    await disconnect()
+    await disconnect(instanceMongo)
   })
 
   it('Upsert Status by type', async () => {
@@ -37,14 +38,15 @@ describe('Saving Status', () => {
 })
 
 describe('Upsert Status after already create', () => {
+  let instanceMongo
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
     await createStatus({ type, message })
   })
 
   afterAll(async () => {
     await deleteStatusByType(type)
-    await disconnect()
+    await disconnect(instanceMongo)
   })
 
   it('Upsert Status', async () => {
@@ -62,16 +64,17 @@ describe('Upsert Status after already create', () => {
 
 describe('Find Status', () => {
   let statusId
+  let instanceMongo
 
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
     const status = await createStatus({ type, message })
     statusId = status.id
   })
 
   afterAll(async () => {
     await deleteStatusById(statusId)
-    await disconnect()
+    await disconnect(instanceMongo)
   })
 
   it('Find status by Id', async () => {
@@ -104,16 +107,16 @@ describe('Find Status', () => {
 
 describe('Update Status', () => {
   let statusId
-
+  let instanceMongo
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
     const status = await createStatus({ type, message })
     statusId = status.id
   })
 
   afterAll(async () => {
     await deleteStatusById(statusId)
-    await disconnect()
+    await disconnect(instanceMongo)
   })
 
   it('Update status by Id', async () => {
@@ -133,15 +136,16 @@ describe('Update Status', () => {
 
 describe('Delete Status', () => {
   let statusId
+  let instanceMongo
 
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
     const status = await createStatus({ type, message })
     statusId = status.id
   })
 
   afterAll(async () => {
-    await disconnect()
+    await disconnect(instanceMongo)
   })
 
   it('Delete status by Id', async () => {

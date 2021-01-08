@@ -256,8 +256,9 @@ const forNowEndExpired = AUTHORIZE_DATE_END_OF_RANGE_FOR_ETG_EXPIERED.plus({ day
 
 describe('synchro-aurige', () => {
   let server
+  let instanceMongo
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
     await createInspecteurs()
     await createCentres()
   })
@@ -270,7 +271,7 @@ describe('synchro-aurige', () => {
   afterAll(async () => {
     await removeCentres()
     await removeInspecteur()
-    await disconnect()
+    await disconnect(instanceMongo)
   })
   it('Should return expired', () => {
     const fiveYearsAgo = new Date()
@@ -877,8 +878,9 @@ describe('Check canAccess property of aurige', () => {
   let candidatsCreated
   let aurigeFile
   let server
+  let instanceMongo
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
     candidatsToCreate = candidatsWithPreRequired.map(candidat =>
       createCandidatToTestAurige(candidat, candidat.isValidatedByAurige),
     )
@@ -935,14 +937,15 @@ describe('Check canAccess property of aurige', () => {
         return tmp
       }),
     )
-    await disconnect()
+    await disconnect(instanceMongo)
   })
 })
 
 describe('Synchro-aurige candidat with etg expired', () => {
   let server
+  let instanceMongo
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect(instanceMongo)
     await setInitCreatedInspecteurs()
     await createInspecteurs()
     await setInitCreatedCentre()
@@ -958,7 +961,7 @@ describe('Synchro-aurige candidat with etg expired', () => {
   afterAll(async () => {
     await removeCentres()
     await removeInspecteur()
-    await disconnect()
+    await disconnect(instanceMongo)
   })
 
   async function synchroAurigeETGKO (
@@ -1166,8 +1169,9 @@ describe('Synchro-aurige: send mail', () => {
   let server
   let candidatCreated
   let placeSelected
+  let instanceMongo
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
     await setInitCreatedInspecteurs()
     await createInspecteurs()
     await setInitCreatedCentre()
@@ -1194,7 +1198,7 @@ describe('Synchro-aurige: send mail', () => {
   afterAll(async () => {
     await removeCentres()
     await removeInspecteur()
-    await disconnect()
+    await disconnect(instanceMongo)
   })
   it('should get mail success before validate aurige', async done => {
     candidatCreated = await createCandidatToTestAurige(candidatPassed)

@@ -10,14 +10,15 @@ const { ObjectId } = Types
 describe('archived candidat status', () => {
   let candidatsIds
   let candidatsIds2
+  let instanceMongo
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
     candidatsIds = [ObjectId(), ObjectId(), ObjectId(), ObjectId()]
     candidatsIds2 = candidatsIds.slice(2)
   })
 
   afterAll(async () => {
-    await disconnect()
+    await disconnect(instanceMongo)
   })
 
   afterEach(async () => {

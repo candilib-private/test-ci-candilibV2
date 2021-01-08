@@ -9,12 +9,13 @@ import {
 } from './candidat.queries'
 
 describe('Candidat', () => {
+  let instanceMongo
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect(instanceMongo)
   })
 
   afterAll(async () => {
-    await disconnect()
+    await disconnect(instanceMongo)
   })
 
   it('sort status candidats', async () => {

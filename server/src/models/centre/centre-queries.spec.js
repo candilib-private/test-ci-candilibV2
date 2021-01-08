@@ -20,12 +20,13 @@ import {
 } from '../__tests__/centres'
 
 describe('Centre', () => {
+  let instanceMongo
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
   })
 
   afterAll(async () => {
-    await disconnect()
+    await disconnect(instanceMongo)
   })
 
   describe('Create centre', () => {

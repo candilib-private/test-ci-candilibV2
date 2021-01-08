@@ -19,9 +19,10 @@ import { findCentreByNameAndDepartement } from '../../models/centre'
 
 describe('Centres business', () => {
   let admin
+  let instanceMongo
 
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
     const departements = ['92', '93']
     const email = 'admin@example.com'
     const password = 'S3cr3757uff!'
@@ -31,7 +32,7 @@ describe('Centres business', () => {
   })
   afterAll(async () => {
     await removeCentres()
-    await disconnect()
+    await disconnect(instanceMongo)
   })
 
   it('Should find the only centre in the 92', async () => {

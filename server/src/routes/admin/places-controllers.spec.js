@@ -100,8 +100,10 @@ describe('Test places controller', () => {
   app.use(bodyParser.json({ limit: '20mb' }))
   app.use(bodyParser.urlencoded({ limit: '20mb', extended: false }))
 
+  let instanceMongo
+
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
     const user = await createUser(
       admin.email,
       admin.password,
@@ -143,7 +145,7 @@ describe('Test places controller', () => {
     await removePlaces()
     await removeCentres()
     await deleteCandidats()
-    await disconnect()
+    await disconnect(instanceMongo)
   })
 
   it('Should get 200 with 2 avialables places with inspecteurs for Centre 2', async () => {
@@ -230,8 +232,10 @@ describe('update place by admin', () => {
   app.use(bodyParser.json({ limit: '20mb' }))
   app.use(bodyParser.urlencoded({ limit: '20mb', extended: false }))
 
+  let instanceMongo
+
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
     setInitCreatedCentre()
     setInitCreatedPlaces()
     await createInspecteurs()
@@ -257,7 +261,7 @@ describe('update place by admin', () => {
     const candidats = candidatsCreatedAndUpdated.map(elt => elt.remove())
 
     await Promise.all(candidats)
-    await disconnect()
+    await disconnect(instanceMongo)
   })
 
   it('should return a 200 when assign candidat in available place', async () => {
@@ -487,8 +491,9 @@ describe('delete place by admin', () => {
   app.use(bodyParser.json({ limit: '20mb' }))
   app.use(bodyParser.urlencoded({ limit: '20mb', extended: false }))
 
+  let instanceMongo
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
     setInitCreatedCentre()
     setInitCreatedPlaces()
     const user = await createUser(
@@ -505,7 +510,7 @@ describe('delete place by admin', () => {
   })
 
   afterAll(async () => {
-    await disconnect()
+    await disconnect(instanceMongo)
   })
   it('should return a 200 when delete availables places', async () => {
     await createPlaces()
@@ -621,8 +626,10 @@ describe('Book place and archive with bookedAt and bookedByAdmin attribut', () =
   let updatedCandidat2
   let placeToDelete
 
+  let instanceMongo
+
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
 
     try {
       const { email, password, departements } = adminTest
@@ -698,7 +705,7 @@ describe('Book place and archive with bookedAt and bookedByAdmin attribut', () =
     } catch (e) {
       console.warn(e)
     }
-    await disconnect()
+    await disconnect(instanceMongo)
   })
 
   it('should book place with bookedAt and bookedByAdmin', async () => {
@@ -784,8 +791,10 @@ describe('Send bordereaux', () => {
   app.use(bodyParser.json({ limit: '20mb' }))
   app.use(bodyParser.urlencoded({ limit: '20mb', extended: false }))
 
+  let instanceMongo
+
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
     setInitCreatedCentre()
     setInitCreatedPlaces()
     const user = await createUser(
@@ -807,7 +816,7 @@ describe('Send bordereaux', () => {
     const candidats = candidatsCreatedAndUpdated.map(elt => elt.remove())
 
     await Promise.all(candidats)
-    await disconnect()
+    await disconnect(instanceMongo)
   })
 
   it('should return a 200 when send inspecteur bordereaux', async () => {
@@ -860,8 +869,10 @@ describe('Admin create places for one inspecteur', () => {
   app.use(bodyParser.json({ limit: '20mb' }))
   app.use(bodyParser.urlencoded({ limit: '20mb', extended: false }))
 
+  let instanceMongo
+
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
     setInitCreatedCentre()
     resetCreatedInspecteurs()
     inspecteur = await createInspecteurs()
@@ -883,7 +894,7 @@ describe('Admin create places for one inspecteur', () => {
   })
 
   afterAll(async () => {
-    await disconnect()
+    await disconnect(instanceMongo)
   })
 
   it('should return a 200 when IPCSR places has created', async () => {

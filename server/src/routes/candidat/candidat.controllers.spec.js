@@ -118,8 +118,9 @@ require('../../util/logger').setWithConsole(false)
 
 describe('Test the candidat signup', () => {
   const departementData = { _id: '93', email: 'email93@onepiece.com' }
+  let instanceMongo
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
     await createDepartement(departementData)
   })
 
@@ -131,7 +132,7 @@ describe('Test the candidat signup', () => {
 
   afterAll(async () => {
     await deleteDepartementById(departementData._id)
-    await disconnect()
+    await disconnect(instanceMongo)
     await app.close()
   })
 

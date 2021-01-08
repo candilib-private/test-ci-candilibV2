@@ -10,14 +10,15 @@ require('../../util/logger').setWithConsole(false)
 const { default: app, apiPrefix } = require('../../app')
 
 describe('Test departements controllers', () => {
+  let instanceMongo
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
     await createCentres()
   })
 
   afterAll(async () => {
     await removeCentres()
-    await disconnect()
+    await disconnect(instanceMongo)
   })
 
   describe('departements', () => {

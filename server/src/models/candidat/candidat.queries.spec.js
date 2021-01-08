@@ -55,12 +55,13 @@ const bookedAt = getFrenchLuxon().toJSDate()
 describe('Candidat', () => {
   let candidat
   let candidat2
+  let instanceMongo
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
   })
 
   afterAll(async () => {
-    await disconnect()
+    await disconnect(instanceMongo)
   })
 
   it('Find 2 candidats', async () => {

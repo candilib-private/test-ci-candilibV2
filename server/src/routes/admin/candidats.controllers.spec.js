@@ -27,8 +27,9 @@ require('../../util/logger').setWithConsole(false)
 const bookedAt = getFrenchLuxon().toJSDate()
 
 xdescribe('Test get and export candidats', () => {
+  let instanceMongo
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
     await createCandidats()
     await createCentres()
     await createPlaces()
@@ -39,7 +40,7 @@ xdescribe('Test get and export candidats', () => {
     await removePlaces()
     await removeCentres()
     await deleteCandidats()
-    await disconnect()
+    await disconnect(instanceMongo)
     await app.close()
   })
 
@@ -79,14 +80,15 @@ describe('Test update candidat e-mail by admin', () => {
   }
 
   let candidatCreated
+  let instanceMongo
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
     candidatCreated = await createCandidat(candidatToCreate)
   })
   afterAll(async () => {
     await candidatModel.deleteOne({ _id: candidatCreated._id })
 
-    await disconnect()
+    await disconnect(instanceMongo)
   })
 
   const itHttpRequest = async (email, status) => {

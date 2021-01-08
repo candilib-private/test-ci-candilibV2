@@ -18,9 +18,10 @@ const readFileAsPromise = util.promisify(fs.readFile)
 describe('Check canAccess property of aurige', () => {
   let aurigeFile
   const app = express()
+  let instanceMongo
 
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
 
     aurigeFile = await readFileAsPromise(
       path.resolve(
@@ -57,7 +58,7 @@ describe('Check canAccess property of aurige', () => {
   })
 
   afterAll(async () => {
-    await disconnect()
+    await disconnect(instanceMongo)
     await app.close()
   })
 })

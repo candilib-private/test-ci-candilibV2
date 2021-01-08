@@ -9,8 +9,9 @@ jest.mock('../../util/logger')
 require('../../util/logger').setWithConsole(false)
 
 describe('Candidats group by status', () => {
+  let instanceMongo
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
     const sortableCandidat = [{
       nbCandidats: 6,
       isValidateAurige: true,
@@ -49,7 +50,7 @@ describe('Candidats group by status', () => {
   })
 
   afterAll(async () => {
-    await disconnect()
+    await disconnect(instanceMongo)
   })
 
   it('Should have n candidats in countStatus', async () => {

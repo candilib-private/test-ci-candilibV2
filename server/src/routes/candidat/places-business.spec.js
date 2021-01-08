@@ -61,8 +61,10 @@ describe('Test places business: get dates from places available', () => {
   let nbPlacesAvailable
   let dateIn3Months
   let inspecteur
+  let instanceMongo
+
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
     const centresCreated = await createCentres()
 
     placesCreated = await createPlaces()
@@ -131,7 +133,7 @@ describe('Test places business: get dates from places available', () => {
   afterAll(async () => {
     await removePlaces()
     await removeCentres()
-    await disconnect()
+    await disconnect(instanceMongo)
   })
 
   it('Should get 2 dates from places Centre 6', async () => {

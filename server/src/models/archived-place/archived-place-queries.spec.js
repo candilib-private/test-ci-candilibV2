@@ -7,13 +7,14 @@ import { expectedArchivedPlace } from './__tests__/expect-archive-place'
 
 describe('Archive place', () => {
   let places
+  let instanceMongo
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
     places = await createPlaces('Archive place')
   })
 
   afterAll(async () => {
-    await disconnect()
+    await disconnect(instanceMongo)
   })
 
   it('should create archive place with one reason', async () => {

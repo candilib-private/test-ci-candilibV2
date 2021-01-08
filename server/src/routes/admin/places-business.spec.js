@@ -84,8 +84,10 @@ const expectOneResultWithError = (
 
 describe('Test import places from CSV', () => {
   let inspecteursCreated
+  let instanceMongo
+
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
     await createCentre(
       centre.nom,
       centre.label,
@@ -101,7 +103,7 @@ describe('Test import places from CSV', () => {
   })
 
   afterAll(async () => {
-    await disconnect()
+    await disconnect(instanceMongo)
   })
 
   it('should have errors with fields are missing ', async () => {

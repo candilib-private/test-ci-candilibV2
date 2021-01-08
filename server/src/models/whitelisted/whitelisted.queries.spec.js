@@ -13,12 +13,13 @@ const invalidEmail = 'dontusethisexample.com'
 
 describe('Whitelisted', () => {
   let whitelisted
+  let instanceMongo
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
   })
 
   afterAll(async () => {
-    await disconnect()
+    await disconnect(instanceMongo)
   })
 
   describe('Saving Whitelisted', () => {

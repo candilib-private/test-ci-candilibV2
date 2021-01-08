@@ -10,12 +10,13 @@ const rating = 5
 const comment = 'chouette'
 
 describe('Saving Evaluation', () => {
+  let instanceMongo
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
   })
 
   afterAll(async () => {
-    await disconnect()
+    await disconnect(instanceMongo)
   })
 
   it('Create Evaluation', async () => {
@@ -35,16 +36,17 @@ describe('Saving Evaluation', () => {
 
 describe('Find Evaluation', () => {
   let evaluationId
+  let instanceMongo
 
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
     const evaluation = await createEvaluation({ rating, comment })
     evaluationId = evaluation.id
   })
 
   afterAll(async () => {
     await deleteEvaluationById(evaluationId)
-    await disconnect()
+    await disconnect(instanceMongo)
   })
 
   it('Find evaluation by Id', async () => {
@@ -63,16 +65,17 @@ describe('Find Evaluation', () => {
 
 describe('Update Evaluation', () => {
   let evaluationId
+  let instanceMongo
 
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
     const evaluation = await createEvaluation({ rating, comment })
     evaluationId = evaluation.id
   })
 
   afterAll(async () => {
     await deleteEvaluationById(evaluationId)
-    await disconnect()
+    await disconnect(instanceMongo)
   })
 
   it('Update evaluation by Id', async () => {
@@ -94,15 +97,16 @@ describe('Update Evaluation', () => {
 
 describe('Delete Evaluation', () => {
   let evaluationId
+  let instanceMongo
 
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
     const evaluation = await createEvaluation({ rating, comment })
     evaluationId = evaluation.id
   })
 
   afterAll(async () => {
-    await disconnect()
+    await disconnect(instanceMongo)
   })
 
   it('Delete evaluation by Id', async () => {

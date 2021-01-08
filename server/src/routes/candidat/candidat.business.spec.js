@@ -35,8 +35,10 @@ describe('Test the candidat business', () => {
   const hash = uuidv4()
   let createdCandidat
   const departementData = { _id: '93', email: 'email93@onepiece.com' }
+  let instanceMongo
+
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
     await createDepartement(departementData)
   })
 
@@ -61,6 +63,6 @@ describe('Test the candidat business', () => {
 
   afterAll(async () => {
     await deleteDepartementById(departementData._id)
-    await disconnect()
+    await disconnect(instanceMongo)
   })
 })

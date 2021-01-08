@@ -18,12 +18,13 @@ describe('CountStatus', () => {
     return { statuses, dates }
   }
 
+  let instanceMongo
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
   })
 
   afterAll(async () => {
-    await disconnect()
+    await disconnect(instanceMongo)
   })
 
   it('should create countStatus', async () => {

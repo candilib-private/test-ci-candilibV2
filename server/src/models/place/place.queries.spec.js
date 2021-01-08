@@ -104,8 +104,9 @@ describe('Place', () => {
   let createdCentre
   let createdCentre2
   let createdInspecteur
+  let instanceMongo
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
 
     createdCentre = await createCentre(
       centre.nom,
@@ -136,7 +137,7 @@ describe('Place', () => {
   afterAll(async () => {
     await deleteCentre(createdCentre)
     await deleteInspecteurByMatricule(createdInspecteur.matricule)
-    await disconnect()
+    await disconnect(instanceMongo)
   })
 
   describe('Saving Place', () => {
@@ -429,8 +430,10 @@ describe('Place', () => {
 describe('Test places queries', () => {
   let begin
   let end
+  let instanceMongo
+
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
     setInitCreatedCentre()
     resetCreatedInspecteurs()
     await createPlacesWithVisibleAt()
@@ -439,7 +442,7 @@ describe('Test places queries', () => {
   })
 
   afterAll(async () => {
-    await disconnect()
+    await disconnect(instanceMongo)
   })
 
   it('should not found 1 place', async () => {
@@ -535,8 +538,10 @@ describe('to book places', () => {
   let updatedCandidat2
   let updatedCandidat3
 
+  let instanceMongo
+
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
 
     try {
       const { nom, label, adresse, lon, lat, departement } = centreTest
@@ -607,7 +612,7 @@ describe('to book places', () => {
     } catch (e) {
       console.warn(e)
     }
-    await disconnect()
+    await disconnect(instanceMongo)
   })
 
   it('find 1 available place of centre 2 at a day 19 11h', async () => {
@@ -780,9 +785,10 @@ describe('Remove the booking places', () => {
   let placeCreated
   let updatedCandidat
   let placeToDelete
+  let instanceMongo
 
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
     const { nom, label, adresse, lon, lat, departement } = centreTest
 
     createdCentre = await createCentre(
@@ -817,7 +823,7 @@ describe('Remove the booking places', () => {
     await createdCentre.remove()
     await createdInspecteur.remove()
     await updatedCandidat.remove()
-    await disconnect()
+    await disconnect(instanceMongo)
   })
 
   it('should return the place without candidat', async () => {

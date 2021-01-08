@@ -45,8 +45,9 @@ jest.mock('../../util/logger')
 require('../../util/logger').setWithConsole(false)
 
 describe('test statistics', () => {
+  let instanceMongo
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
     await createCandidatsForStat()
     await createCandidatLeaveRetentionArea()
     await createStatsForPlacesExam()
@@ -55,7 +56,7 @@ describe('test statistics', () => {
     await removePlaces()
     await removeCentres()
     await deleteCandidats()
-    await disconnect()
+    await disconnect(instanceMongo)
   })
   it('Should have nb success', async () => {
     const centres = await findCentresByDepartement('92', { _id: 1 })

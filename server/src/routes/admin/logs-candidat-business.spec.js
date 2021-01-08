@@ -6,12 +6,13 @@ import { connect, disconnect } from '../../mongo-connection'
 import { logsTypeNameForDepartement } from '../../config'
 
 describe('Test logs candidat', () => {
+  let instanceMongo
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
   })
   afterAll(async () => {
     await LogsModel.deleteMany({ type: logsTypeNameForDepartement })
-    await disconnect()
+    await disconnect(instanceMongo)
   })
 
   it('shoud create and get logs candidats', async () => {

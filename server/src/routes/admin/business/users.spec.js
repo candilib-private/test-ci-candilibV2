@@ -28,8 +28,10 @@ describe('Users', () => {
   let repartiteur
   let savedUser
 
+  let instanceMongo
+
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
     admin = await createUser(
       email,
       password,
@@ -75,7 +77,7 @@ describe('Users', () => {
       deleteUser(delegue2),
       deleteUser(repartiteur),
     ])
-    await disconnect()
+    await disconnect(instanceMongo)
   })
 
   it('Should create Delegue if Admin', async () => {

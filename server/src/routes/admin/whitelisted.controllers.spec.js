@@ -14,12 +14,13 @@ import whitelistedModel from '../../models/whitelisted/whitelisted.model'
 
 describe('Test get and export candidats', () => {
   const department = '93'
+  let instanceMongo
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
   })
 
   afterAll(async () => {
-    await disconnect()
+    await disconnect(instanceMongo)
   })
 
   describe('get the whitlisted', () => {

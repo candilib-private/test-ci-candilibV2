@@ -74,12 +74,13 @@ require('../../util/logger').setWithConsole(false)
 describe('Test get dates from places available', () => {
   let createdCentres
   let createdPlaces
+  let instanceMongo
   beforeAll(async () => {
     setInitCreatedCentre()
     resetCreatedInspecteurs()
     setInitCreatedPlaces()
 
-    await connect()
+    instanceMongo = await connect()
     const createdCandidats = await createCandidats()
     createdCentres = await createCentres()
     createdPlaces = await createPlaces()
@@ -92,7 +93,7 @@ describe('Test get dates from places available', () => {
     await removePlaces()
     await removeCentres()
     await deleteCandidats()
-    await disconnect()
+    await disconnect(instanceMongo)
     await app.close()
   })
 
@@ -133,11 +134,12 @@ describe('Test get dates from places available', () => {
 describe('Test get dates from places available when there are booked', () => {
   let createdCentres
   let createdPlaces
+  let instanceMongo
   beforeAll(async () => {
     setInitCreatedCentre()
     resetCreatedInspecteurs()
     setInitCreatedPlaces()
-    await connect()
+    instanceMongo = await connect()
     const createdCandidats = await createCandidats()
     createdCentres = await createCentres()
     createdPlaces = await createPlaces()
@@ -153,7 +155,7 @@ describe('Test get dates from places available when there are booked', () => {
     await removePlaces()
     await removeCentres()
     await deleteCandidats()
-    await disconnect()
+    await disconnect(instanceMongo)
     await app.close()
   })
 
@@ -254,8 +256,10 @@ describe('Test to book and to delete reservation by candidat', () => {
   let updatedCandidat2
   let placeToDelete
 
+  let instanceMongo
+
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
 
     try {
       const { nom, label, adresse, lon, lat, departement } = centreTest
@@ -310,7 +314,7 @@ describe('Test to book and to delete reservation by candidat', () => {
     } catch (e) {
       console.warn(e)
     }
-    await disconnect()
+    await disconnect(instanceMongo)
     await app.close()
   })
 
@@ -481,11 +485,13 @@ describe('test to get booking by candidat', () => {
   let createdPlaceCanBook
   let createdCentres
 
+  let instanceMongo
+
   beforeAll(async () => {
     setInitCreatedCentre()
     resetCreatedInspecteurs()
     setInitCreatedPlaces()
-    await connect()
+    instanceMongo = await connect()
     const createdCandiats = await createCandidats()
     selectedCandidat = createdCandiats[0]
     createdCentres = await createCentres()
@@ -501,7 +507,7 @@ describe('test to get booking by candidat', () => {
     await removeCentres()
     await deleteCandidats()
 
-    await disconnect()
+    await disconnect(instanceMongo)
     await app.close()
   })
 
@@ -654,8 +660,10 @@ const createReservationWithSuccess = async (
 describe('test to book with the date authorize by candiat', () => {
   let selectedCandidat
   let createdCentres
+  let instanceMongo
+
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
     setInitCreatedCentre()
     resetCreatedInspecteurs()
     setInitCreatedPlaces()
@@ -679,7 +687,7 @@ describe('test to book with the date authorize by candiat', () => {
     await removeCentres()
     await deleteCandidats()
 
-    await disconnect()
+    await disconnect(instanceMongo)
     await app.close()
   })
 
@@ -759,11 +767,12 @@ describe('test to change a booking, 6 days before the appointemnt, by candidat '
   let createdPlaceCanNotBook
   let createdCentres
 
+  let instanceMongo
   beforeAll(async () => {
     setInitCreatedCentre()
     resetCreatedInspecteurs()
     setInitCreatedPlaces()
-    await connect()
+    instanceMongo = await connect()
     createdCandiats = await createCandidats()
     createdCentres = await createCentres()
     await createInspecteurs()
@@ -786,7 +795,7 @@ describe('test to change a booking, 6 days before the appointemnt, by candidat '
     await removeCentres()
     await deleteCandidats()
 
-    await disconnect()
+    await disconnect(instanceMongo)
     await app.close()
   })
 
@@ -863,12 +872,13 @@ const cancelReservationWithSuccess = async (
 
 describe('Cancel a reservation', () => {
   let selectedCandidat1
+  let instanceMongo
 
   beforeAll(async () => {
     setInitCreatedCentre()
     resetCreatedInspecteurs()
     setInitCreatedPlaces()
-    await connect()
+    instanceMongo = await connect()
     const createdCandiats = await createCandidats()
     await createCentres()
     await createInspecteurs()
@@ -885,7 +895,7 @@ describe('Cancel a reservation', () => {
     await removeCentres()
     await deleteCandidats()
 
-    await disconnect()
+    await disconnect(instanceMongo)
     await app.close()
   })
 
@@ -930,8 +940,9 @@ describe('get reservation with candidat failed', () => {
   let createdPlaceToRetry
   let createdCentres
 
+  let instanceMongo
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
 
     setInitCreatedCentre()
     resetCreatedInspecteurs()
@@ -956,7 +967,7 @@ describe('get reservation with candidat failed', () => {
     await removeCentres()
     await deleteCandidats()
 
-    await disconnect()
+    await disconnect(instanceMongo)
     await app.close()
   })
 

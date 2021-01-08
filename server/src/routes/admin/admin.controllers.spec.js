@@ -38,9 +38,10 @@ describe('Admin controller', () => {
   let app
   let admin
   let adminTech
+  let instanceMongo
 
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
     admin = await createUser(email, password, departements)
     adminTech = await createUser(
       emailTech,
@@ -51,7 +52,7 @@ describe('Admin controller', () => {
   })
 
   afterAll(async () => {
-    await disconnect()
+    await disconnect(instanceMongo)
     await app.close()
   })
 
@@ -104,9 +105,10 @@ describe('Create user', () => {
   let app
   let admin
   let delegue
+  let instanceMongo
 
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
 
     admin = await createUser(
       emailAdmin,
@@ -124,7 +126,7 @@ describe('Create user', () => {
   })
 
   afterAll(async () => {
-    await disconnect()
+    await disconnect(instanceMongo)
     await app.close()
   })
 
@@ -286,8 +288,10 @@ describe('Get users', () => {
   let delegue
   let repartiteur
 
+  let instanceMongo
+
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
     admin = await createUser(
       emailAdmin,
       password,
@@ -309,7 +313,7 @@ describe('Get users', () => {
   })
 
   afterAll(async () => {
-    await disconnect()
+    await disconnect(instanceMongo)
     app.close()
   })
 
@@ -381,8 +385,10 @@ describe('Update User by admin', () => {
   let admin
   let updateUser
 
+  let instanceMongo
+
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
     admin = await createUser(
       emailAdmin,
       password,
@@ -398,7 +404,7 @@ describe('Update User by admin', () => {
   })
 
   afterAll(async () => {
-    await disconnect()
+    await disconnect(instanceMongo)
     app.close()
   })
 
@@ -482,8 +488,10 @@ describe('Update User by delegue', () => {
   let delegue
   let updateUser
 
+  let instanceMongo
+
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
     delegue = await createUser(
       emailAdmin,
       password,
@@ -499,7 +507,7 @@ describe('Update User by delegue', () => {
   })
 
   afterAll(async () => {
-    await disconnect()
+    await disconnect(instanceMongo)
     app.close()
   })
 
@@ -584,9 +592,10 @@ describe(' Delete user by delegue', () => {
   const otherDepartements = ['94']
   const emailDelegueToDelete = 'delegueToDelete@example.com'
   const emailDelegueToDelete2 = 'repartToDelete2@example.com'
+  let instanceMongo
 
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
     delegue = await createUser(
       emailDelegue,
       password,
@@ -614,7 +623,7 @@ describe(' Delete user by delegue', () => {
   })
 
   afterAll(async () => {
-    await disconnect()
+    await disconnect(instanceMongo)
     app.close()
   })
 
@@ -710,9 +719,10 @@ describe(' Delete user by admin', () => {
   let app
   let admin
   let userToDelete
+  let instanceMongo
 
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
     admin = await createUser(
       emailAdmin,
       password,
@@ -728,7 +738,7 @@ describe(' Delete user by admin', () => {
   })
 
   afterAll(async () => {
-    await disconnect()
+    await disconnect(instanceMongo)
     await app.close()
   })
 

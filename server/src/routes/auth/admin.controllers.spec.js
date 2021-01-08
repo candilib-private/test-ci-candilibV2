@@ -29,14 +29,15 @@ const invalidUser = {
 }
 
 describe('Test the auth admin', () => {
+  let instanceMongo
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
     await createUser(email, password)
   })
 
   afterAll(async () => {
     await archiveUserByEmail(email)
-    await disconnect()
+    await disconnect(instanceMongo)
     await app.close()
   })
 
@@ -77,18 +78,21 @@ describe('Email on call to /reset-link', () => {
 
   let user
   let app
+
+  let instanceMongo
+
   beforeAll(async () => {
     app = express()
     app.use(bodyParser.json({ limit: '20mb' }))
     app.use(bodyParser.urlencoded({ limit: '20mb', extended: false }))
     app.post('/reset-link', requestPasswdReset)
-    await connect()
+    instanceMongo = await connect()
     user = await createUser(validEmail, password)
   })
 
   afterAll(async () => {
     await archiveUserByEmail(email)
-    await disconnect()
+    await disconnect(instanceMongo)
     await app.close()
   })
 
@@ -120,13 +124,15 @@ describe('Reset my password', () => {
 
   let user
   let app
+  let instanceMongo
+
   beforeAll(async () => {
     app = express()
     app.use(bodyParser.json({ limit: '20mb' }))
     app.use(bodyParser.urlencoded({ limit: '20mb', extended: false }))
     app.patch('/admin/me', resetMyPassword)
     try {
-      await connect()
+      instanceMongo = await connect()
       user = await createUser(validEmail, password)
       hash = await addEmailValidationHash(validEmail)
       await updateUserPassword(user, newPassword)
@@ -137,7 +143,7 @@ describe('Reset my password', () => {
 
   afterAll(async () => {
     await archiveUserByEmail(email)
-    await disconnect()
+    await disconnect(instanceMongo)
     app.close()
   })
 

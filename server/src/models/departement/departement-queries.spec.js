@@ -10,12 +10,13 @@ const validEmail = 'candidat@example.com'
 const _id = '95'
 
 describe('Saving Departement', () => {
+  let instanceMongo
   beforeAll(async () => {
-    await connect()
+    instanceMongo = await connect()
   })
 
   afterAll(async () => {
-    await disconnect()
+    await disconnect(instanceMongo)
   })
 
   it('Create Departement', async () => {
