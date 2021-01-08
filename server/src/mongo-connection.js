@@ -2,6 +2,7 @@ import delay from 'delay'
 import mongoose from 'mongoose'
 
 import { dbOptions } from './config'
+import { closeConnection, createInstanceMongoMemoryServer } from './mongo-memory-server-factory'
 import { techLogger } from './util'
 
 mongoose.Promise = Promise
@@ -27,19 +28,20 @@ const mongooseOpts = {
 
 export const connect = async () => {
   let mongoUri
+  let instanceMongoMemServer
   try {
     if (isTest) {
-      const { getMongoServerConnectionString } = await import(
-        './mongo-memory-server-setup'
-      )
-      mongoUri = await getMongoServerConnectionString()
+      const { instance, uri } = await createInstanceMongoMemoryServer()
+      instanceMongoMemServer = instance
+      mongoUri = uri
     } else {
       mongoUri = mongoURL
     }
     await mongoose.connect(mongoUri, mongooseOpts)
     techLogger.info('Connected to Mongo!')
-    return mongoose
+    return instanceMongoMemServer
   } catch (err) {
+    await instanceMongoMemServer?.stop()
     --reconnectTries
     if (reconnectTries > 0) {
       techLogger.warn(
@@ -54,14 +56,11 @@ export const connect = async () => {
   }
 }
 
-export const disconnect = async () => {
+export const disconnect = async (instanceMongoMemoryServer) => {
   try {
     await mongoose.disconnect()
     if (isTest) {
-      const { stopMongoMemoryServer } = await import(
-        './mongo-memory-server-setup'
-      )
-      await stopMongoMemoryServer()
+      await closeConnection(instanceMongoMemoryServer)
     }
   } catch (error) {
     techLogger.info('Disconnected from Mongo')
