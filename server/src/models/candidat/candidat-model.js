@@ -1,3 +1,7 @@
+/**
+ * Model candidat
+ * @module
+ */
 import mongoose from 'mongoose'
 import sanitizeHtml from 'sanitize-html'
 

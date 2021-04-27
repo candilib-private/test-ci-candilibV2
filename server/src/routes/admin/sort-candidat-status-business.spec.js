@@ -1,5 +1,5 @@
 import { createCandidat } from '../../models/candidat'
-import candidatModel from '../../models/candidat/candidat.model'
+import candidatModel from '../../models/candidat/candidat-model'
 import countStatusModel from '../../models/count-status/countStatus-model'
 
 import { generateCandidats } from '../../models/__tests__'

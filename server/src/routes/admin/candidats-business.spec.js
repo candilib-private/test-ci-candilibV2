@@ -1,7 +1,7 @@
 
 import { connect, disconnect } from '../../mongo-connection'
 import { createCandidat } from '../../models/candidat'
-import candidatModel from '../../models/candidat/candidat.model'
+import candidatModel from '../../models/candidat/candidat-model'
 import { modifyCandidatEmail } from './candidats-business'
 import { SUBJECT_UPDATE_CANDDIAT_MAIL } from '../business'
 

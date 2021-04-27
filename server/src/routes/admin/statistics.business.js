@@ -1,5 +1,5 @@
 import archivedCandidatModel from '../../models/archived-candidat/archived-candidat.model'
-import candidatModel from '../../models/candidat/candidat.model'
+import candidatModel from '../../models/candidat/candidat-model'
 import {
   countCandidatsInscritsByDepartement,
   countCandidatsInscritsByDepartementAndWeek,

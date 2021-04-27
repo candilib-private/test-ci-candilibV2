@@ -1,6 +1,6 @@
 import request from 'supertest'
 import { getFrenchLuxon } from '../../util'
-import candidatModel from '../../models/candidat/candidat.model'
+import candidatModel from '../../models/candidat/candidat-model'
 import { createCandidat } from '../../models/candidat'
 import { BAD_PARAMS } from './message.constants'
 

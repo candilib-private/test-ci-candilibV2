@@ -5,7 +5,7 @@ import { simpleParser } from 'mailparser'
 import config, { smtpOptions } from '../../../config'
 import { findArchivedCandidatByNomNeph } from '../../../models/archived-candidat/archived-candidat.queries'
 import { createCandidat, findCandidatById } from '../../../models/candidat'
-import candidatModel from '../../../models/candidat/candidat.model'
+import candidatModel from '../../../models/candidat/candidat-model'
 import {
   createDepartement,
   deleteDepartementById,

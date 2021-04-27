@@ -1,7 +1,7 @@
 import moment from 'moment'
 
 import ArchivedCandidat from '../archived-candidat/archived-candidat.model'
-import Candidat from './candidat.model'
+import Candidat from './candidat-model'
 import Place from '../place/place.model'
 import { getFrenchFormattedDateTime, getFrenchLuxon, techLogger } from '../../util'
 import { queryPopulate } from '../util/populate-tools'

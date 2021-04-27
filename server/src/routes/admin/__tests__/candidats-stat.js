@@ -1,5 +1,5 @@
 import { createCandidat } from '../../../models/candidat'
-import Candidat from '../../../models/candidat/candidat.model'
+import Candidat from '../../../models/candidat/candidat-model'
 import {
   getFrenchLuxon,
   NO_CANDILIB,
