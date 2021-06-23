@@ -3,7 +3,7 @@ import moment from 'moment'
 import ArchivedCandidat from '../archived-candidat/archived-candidat.model'
 import Candidat from './candidat.model'
 import Place from '../place/place.model'
-import { getFrenchFormattedDateTime, getFrenchLuxon, techLogger } from '../../util'
+import { getFrenchFormattedDateTime, getFrenchLuxon, getTokenDateCreated, techLogger } from '../../util'
 import { queryPopulate } from '../util/populate-tools'
 import { candidatValidator } from '../../util/validators/candidat-validator'
 import { candidatStatuses } from '../../routes/common/candidat-status-const'
@@ -840,6 +840,23 @@ export const totalCandidatsSignIn = async (filter) => {
   return count
 }
 
+export const updateBulkCandidatDateToken = async (candidats) => {
+  const candidatToUpdate = candidats.map(({ _id, tokenAddedAt }) => {
+    return {
+      updateOne: {
+        filter: {
+          _id,
+        },
+        update: {
+          tokenAddedAt,
+          lastConnection: tokenAddedAt,
+        },
+      },
+    }
+  })
+  const result = await Candidat.bulkWrite(candidatToUpdate)
+  return result
+}
 /**
  * @typedef {Object} CandidatUpdateData
  * @property {boolean} isEvaluationDone - `true` si le candidat à rempli le questionnaire d'évaluation
