@@ -15,6 +15,7 @@ jobs:
           name: "before_install"
           command: |
             echo "before_install"
+            ls
             sudo apt-get -q update
             sudo apt-get install -qy make apt-transport-https ca-certificates curl software-properties-common gawk jq parallel curl
       - run:
