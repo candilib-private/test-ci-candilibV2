@@ -8,8 +8,8 @@ workflows:
 
 jobs:
   build:
-    docker:
-      - image: ubuntu-2004:202104-01
+    machine:
+      image: ubuntu-2004:202010-01
     steps:
       - run: |
           echo "before_install"
@@ -29,8 +29,4 @@ jobs:
           ( git fetch --unshallow || true ) && git tag -l --sort=creatordate | tail -1
           ci/docker-access.sh
           ci/run-tests.sh
-      - run: |
-          echo "script"
-          ( git fetch --unshallow || true ) && git tag -l --sort=creatordate | tail -1
-          ci/docker-access.sh
-          ci/run-tests.sh
+
