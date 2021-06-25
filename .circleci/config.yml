@@ -11,11 +11,11 @@ jobs:
     machine:
       image: ubuntu-2004:202010-01
     steps:
+      - checkout
       - run:
           name: "before_install"
           command: |
             echo "before_install"
-            pwd
             sudo apt-get -q update
             sudo apt-get install -qy make apt-transport-https ca-certificates curl software-properties-common gawk jq parallel curl
       - run:
